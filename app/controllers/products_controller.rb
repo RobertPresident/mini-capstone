@@ -1,9 +1,24 @@
 class ProductsController < ApplicationController
-  def one
-    @product = Product.first
+  def index
+    @products = Product.all
   end
 
-  def many
-    @products = Product.all
+  def show
+    @product = Product.find(params[:id])
+  end
+
+  def new
+    
+  end
+
+  def create
+    @product = Product.create(
+      name: params[:name],
+      price: params[:price],
+      image: params[:image],
+      description: params[:description]
+      )
+
+    render 'show.html.erb'
   end
 end
