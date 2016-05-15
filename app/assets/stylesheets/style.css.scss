@@ -1,0 +1,24 @@
+$accent-color: #820;
+
+
+body {
+  font-family: Optima,Segoe,"Segoe UI",Candara,Calibri,Arial,sans-serif;
+  background-image: url("purty_wood.png"); 
+  }
+
+h1 {
+  border_bottom: solid 1px
+}
+
+a {
+  color: red;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #0df;
+}
+
+.thumbnail {
+  height: 650px;
+}

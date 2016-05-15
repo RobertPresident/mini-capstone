@@ -4,3 +4,11 @@
 <h4>Price: <%= @product.price %></h4>
   <img src= <%= @product.image %>>
 <h4>Description: <%= @product.description %></h4>
+
+<h5><%= link_to "Edit", "/products/#{@product.id}/edit" %></h5>
+<h5><%= link_to "Delete", "/products/#{@product.id}", method: :delete %></h5>
+
+
+
+
+
