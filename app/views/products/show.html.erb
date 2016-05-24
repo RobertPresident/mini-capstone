@@ -1,12 +1,49 @@
 
+<h1><%= @product.sales_message %></h1>
 
-<h3>Album Name: <%= @product.name %></h3>
-<h4>Price: <%= @product.price %></h4>
-  <img src= <%= @product.image %>>
+<h3>User: <%= @product.user.email %></h3>
+<h4>Price: <%= number_to_currency(@product.price) %></h4>
+<h5>Tax: <%= number_to_currency(@product.tax) %></h5>
+<h5>Total: <%= number_to_currency(@product.total) %></h5>
+  
+  <% @product.images.each do |image_object| %>
+    <img src="<%= image_object.url %>"alt="<%= @product.name %>" class="img-responsive">
+  <% end %>
+
 <h4>Description: <%= @product.description %></h4>
+<h6>Supplier: <%= @product.supplier.name %></h6>
+<h4>Stock: <%= @product.stock %></h4>
+
+
+
+
 
 <h5><%= link_to "Edit", "/products/#{@product.id}/edit" %></h5>
 <h5><%= link_to "Delete", "/products/#{@product.id}", method: :delete %></h5>
+
+<h3>CheckOut</h3>
+
+
+<h2>How many would you like to buy?</h2>
+
+<%= form_tag '/orders', method: :post do %>
+
+
+
+<div>
+
+ <%= label_tag :quantity %>
+ <%= text_field_tag :quantity %>
+
+</div>
+
+  <%= hidden_field_tag :product_id, @product.id %>
+ 
+ <%= submit_tag 'Buy Now!', class: "btn btn-default" %>
+
+<% end %>
+
+
 
 
 

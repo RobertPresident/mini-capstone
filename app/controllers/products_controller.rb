@@ -2,21 +2,47 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
-  end
+    sort_order = params[:order_by]
+    sort_price = params[:order_by_price_desc]
+    search_term = params[:search_term]    
+    discount_value = params[:discount]
 
+
+    if sort_order && sort_price
+      @products = Product.order(sort_order => sort_price)
+    elsif sort_order
+      @products = Product.order(sort_order)
+    else
+      @products = Product.all
+    end
+    
+    if search_term
+      @products = @products.where("name LIKE ? OR description LIKE ?", search_term, search_term)
+    end
+
+    if discount_value
+      @products = @products.where("price < ?", discount_value)
+    end
+  end
+    
+    
+    
   def new
     
   end
 
   def create
     @product = Product.create(
-      name: params[:name],
+      user_id: current_user.id,
       price: params[:price],
       image: params[:image],
-      description: params[:description]
+      description: params[:description],
+      stock: params[:stock]
       )
+
 flash[:success] = "Product Created"
-redirect_to "/products/#{@product.id}"  end
+redirect_to "/products/#{@product.id}"  
+  end
 
   def show
     @product = Product.find(params[:id])
@@ -30,10 +56,10 @@ redirect_to "/products/#{@product.id}"  end
    @product = Product.find_by(id: params[:id]) 
 
    @product.update(
-      name: params[:name],
       price: params[:price],
       image: params[:image],
-      description: params[:description]
+      description: params[:description],
+      stock: params[:stock]
       )
 
    flash[:success] = "Product Created"
@@ -48,7 +74,16 @@ redirect_to "/products/#{@product.id}"  end
     redirect_to "/"
   end
 
+  def random
+    product = Product.all.sample
+
+    redirect_to "/products/#{product.id}"
+  end
 end
+
+
+    
+
 
   
 
