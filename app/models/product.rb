@@ -4,6 +4,11 @@ class Product < ActiveRecord::Base
   has_many :images
   has_many :orders
   belongs_to :user
+  has_many :categorized_products
+  has_many :categories, through: :categorized_products
+  has_many :carted_products
+  has_many :orders, through: :carted_products
+
 
   TAXRATE = 0.09
 

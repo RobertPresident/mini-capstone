@@ -26,20 +26,29 @@
 
 <h2>How many would you like to buy?</h2>
 
-<%= form_tag '/orders', method: :post do %>
 
+<h4>Categories</h4>
+<ul>
+<% @product.categories.each do |category| %>
+  <li><%= category.name %></li>
+  <% end %>
+</ul>
 
 
 <div>
 
+<%= form_tag '/carted_products', method: :post do %>
+
  <%= label_tag :quantity %>
  <%= text_field_tag :quantity %>
+
+
 
 </div>
 
   <%= hidden_field_tag :product_id, @product.id %>
  
- <%= submit_tag 'Buy Now!', class: "btn btn-default" %>
+ <%= submit_tag 'Add To Cart', class: "btn btn-default" %>
 
 <% end %>
 

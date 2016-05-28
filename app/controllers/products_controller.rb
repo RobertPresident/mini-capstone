@@ -6,6 +6,11 @@ class ProductsController < ApplicationController
     sort_price = params[:order_by_price_desc]
     search_term = params[:search_term]    
     discount_value = params[:discount]
+    category_type = params[:category]
+
+    if category_type
+      @products = Category.find_by(name: category_type).products
+    end
 
 
     if sort_order && sort_price
