@@ -40,15 +40,20 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu">
+              
               <% Category.all.each do |category| %>
                 <li><a href="/?category=<%= category.name %>"><%= category.name %></a></li>
                 <% end %>
+
               <li><a href="/products?order_by=price&order_by_price_desc=desc">Sort Price Desc</a></li>
               <li><a href="/products?order_by=price">Sort Price Asc</a></li>
               <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
               <% if user_signed_in? %>
                 <li><%= link_to 'Sign Out', '/users/sign_out', method: :delete %></li>
+                <li><%= link_to "Cart (#{@cart_count})", "/cart" %></li>
+
+
               <% else %>
 
 
@@ -88,7 +93,7 @@
   </nav>
 <div class="container">
   <% flash.each do |name, message| %>
-    <div class="alert alert-<%= name %> alert-dismissible" role="alert">
+    <div class="alert alert-<%= name != "notice" ? name : "success" %> alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   <strong><%= name.upcase %>!</strong> <%= message %>
 </div>    

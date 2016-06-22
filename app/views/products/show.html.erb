@@ -11,50 +11,39 @@
   <% end %>
 
 <h4>Description: <%= @product.description %></h4>
-<h6>Supplier: <%= @product.supplier.name %></h6>
-<h4>Stock: <%= @product.stock %></h4>
 
 
 
-
-
-<h5><%= link_to "Edit", "/products/#{@product.id}/edit" %></h5>
-<h5><%= link_to "Delete", "/products/#{@product.id}", method: :delete %></h5>
-
-<h3>CheckOut</h3>
-
-
-<h2>How many would you like to buy?</h2>
-
-
-<h4>Categories</h4>
-<ul>
-<% @product.categories.each do |category| %>
-  <li><%= category.name %></li>
-  <% end %>
-</ul>
-
-
-<div>
-
-<%= form_tag '/carted_products', method: :post do %>
-
- <%= label_tag :quantity %>
- <%= text_field_tag :quantity %>
+        <h4>Categories: </h4>
+        <ul>
+          <% @product.categories.each do |category| %>
+            <li><%= category.name %></li>
+          <% end %>
+        </ul>
 
 
 
+        <% if user_signed_in? %>
+        <h2>How many would you like to buy?</h2>
+
+        <%= form_tag '/carted_products', method: :post do %>
+          <div>
+            <%= label_tag :quantity %>
+            <%= text_field_tag :quantity %>
+          </div>
+          <%= hidden_field_tag :product_id, @product.id %>
+
+          <%= submit_tag 'Add to Cart', class: "btn btn-default" %>
+        <% end %>
+      <% else %>
+        <h2>If you you want to purchase this item please <%= link_to 'Sign In', '/users/sign_in' %> or <%= link_to 'Sign Up', '/users/sign_up' %></h2>
+      <% end %>
+
+        <h6>Supplier: <%= @product.name %></h6>
+        <% if user_signed_in? && current_user.admin %>
+        <%= link_to "Edit", "/products/#{@product.id}/edit", class: "btn btn-success" %>
+        <%= link_to "Delete", "/products/#{@product.id}", {method: :delete, class: "btn btn-danger" }%>
+        <% end %>
+    </div>
+  </div>
 </div>
-
-  <%= hidden_field_tag :product_id, @product.id %>
- 
- <%= submit_tag 'Add To Cart', class: "btn btn-default" %>
-
-<% end %>
-
-
-
-
-
-
-

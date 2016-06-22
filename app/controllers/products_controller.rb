@@ -1,6 +1,12 @@
 class ProductsController < ApplicationController
 
+  before_action :authenticate_admin!, only: [:new, :create, :edit, :update, :destroy]
+
   def index
+
+    @test_token = ENV['test_api_token']
+    @test_secret = ENV['test_api_secret']
+    
     @products = Product.all
     sort_order = params[:order_by]
     sort_price = params[:order_by_price_desc]
@@ -30,27 +36,35 @@ class ProductsController < ApplicationController
     end
   end
     
-    
-    
   def new
-    
+    @product = Product.new
   end
 
   def create
-    @product = Product.create(
+    @product = Product.new(
       user_id: current_user.id,
       price: params[:price],
-      image: params[:image],
       description: params[:description],
-      stock: params[:stock]
+      name: params[:name]
       )
+      
+    if @product.save
+      Image.create(url: params[:image], product_id: @product.id) if params[:image] != ""
 
-flash[:success] = "Product Created"
-redirect_to "/products/#{@product.id}"  
+
+      flash[:success] = "Product Created"
+      redirect_to "/products/#{@product.id}" 
+    else
+      render :new 
+    end
   end
+
 
   def show
     @product = Product.find(params[:id])
+
+    @tax = @product.tax
+    @total = @product.total
   end
 
   def edit
@@ -60,16 +74,20 @@ redirect_to "/products/#{@product.id}"
   def update
    @product = Product.find_by(id: params[:id]) 
 
-   @product.update(
-      price: params[:price],
-      image: params[:image],
-      description: params[:description],
-      stock: params[:stock]
-      )
+   if @product.update(
+                    price: params[:price],
+                    description: params[:description],
+                    stock: params[:stock]
+                    )
+
+   
 
    flash[:success] = "Product Created"
    render 'show.html.erb'
+ else 
+  render :edit
   end
+end
 
   def destroy
     @product = Product.find_by(id: params[:id])
@@ -85,6 +103,15 @@ redirect_to "/products/#{@product.id}"
     redirect_to "/products/#{product.id}"
   end
 end
+
+
+
+  
+    
+    
+
+
+
 
 
     

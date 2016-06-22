@@ -25,18 +25,18 @@ Rails.application.routes.draw do
 
   delete '/suppliers/:id' => 'suppliers#destroy'
 
-  get '/orders' => 'orders#index'
-  get '/orders/new' => 'orders#new'
+  # get '/orders' => 'orders#index'
+  # get '/orders/new' => 'orders#new'
   post '/orders' => 'orders#create'
 
   get '/orders/:id' => 'orders#show'
 
-  get '/orders/:id/edit' => 'orders#edit'
-  patch '/orders/:id' => 'orders#update'
+  # get '/orders/:id/edit' => 'orders#edit'
+  # patch '/orders/:id' => 'orders#update'
 
-  delete '/orders/:id' => 'orders#destroy'
+  # delete '/orders/:id' => 'orders#destroy'
 
-  get '/carted_products' => 'carted_products#index'
+  get '/cart' => 'carted_products#index'
   # get '/carted_products/new' => 'carted_products#new'
   post '/carted_products' => 'carted_products#create'
 
@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   # get '/carted_products/:id/edit' => 'carted_products#edit'
   # patch '/carted_products/:id' => 'carted_products#update'
 
-  # delete '/carted_products/:id' => 'carted_products#destroy'
+  delete '/carted_products/:id' => 'carted_products#destroy'
 
   
 end
